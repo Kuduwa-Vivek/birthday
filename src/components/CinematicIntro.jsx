@@ -10,6 +10,10 @@ const LINES = [
   "Ready?",
 ];
 
+// How long each line stays on screen (ms) — at least 1.5s to read comfortably
+const LINE_DURATION_MS = 2000;
+const HOLD_AFTER_LAST_MS = 800;
+
 export default function CinematicIntro({ onComplete }) {
   const [index, setIndex] = useState(0);
   const reduced = usePrefersReducedMotion();
@@ -20,21 +24,17 @@ export default function CinematicIntro({ onComplete }) {
       return () => clearTimeout(t);
     }
 
-    const timings = [700, 900, 1000, 900];
-    let elapsed = 0;
     const timers = [];
+    let elapsed = 0;
 
     LINES.forEach((_, i) => {
-      elapsed += timings[i];
-      timers.push(
-        setTimeout(() => {
-          if (i < LINES.length - 1) {
-            setIndex(i + 1);
-          } else {
-            setTimeout(() => onComplete?.(), 500);
-          }
-        }, elapsed)
-      );
+      elapsed += LINE_DURATION_MS;
+      if (i < LINES.length - 1) {
+        timers.push(setTimeout(() => setIndex(i + 1), elapsed));
+      } else {
+        // Last line already showing — hold it, then finish
+        timers.push(setTimeout(() => onComplete?.(), elapsed + HOLD_AFTER_LAST_MS));
+      }
     });
 
     return () => timers.forEach(clearTimeout);

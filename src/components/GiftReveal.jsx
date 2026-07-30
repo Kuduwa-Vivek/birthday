@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import styles from "./GiftReveal.module.css";
 
 function Burst() {
@@ -29,9 +30,10 @@ function Burst() {
   );
 }
 
-export default function GiftReveal({ gifts, onComplete }) {
-  const [step, setStep] = useState(-1); // -1 opening, 0..n gifts, then done
+export default function GiftReveal({ gifts = [], onComplete }) {
+  const [step, setStep] = useState(-1); // -1 opening, 0..n-1 gifts
   const [opened, setOpened] = useState(false);
+  const [direction, setDirection] = useState(1);
 
   useEffect(() => {
     if (typeof navigator !== "undefined" && navigator.vibrate) {
@@ -46,15 +48,46 @@ export default function GiftReveal({ gifts, onComplete }) {
     };
   }, []);
 
-  useEffect(() => {
-    if (step < 0 || !gifts?.length) return undefined;
-    if (step < gifts.length - 1) {
-      const t = setTimeout(() => setStep((s) => s + 1), 1600);
-      return () => clearTimeout(t);
+  const isFirst = step <= 0;
+  const isLast = step >= gifts.length - 1;
+  const canNavigate = step >= 0 && gifts.length > 0;
+
+  const goPrev = () => {
+    if (!canNavigate || isFirst) return;
+    setDirection(-1);
+    setStep((s) => s - 1);
+  };
+
+  const goNext = () => {
+    if (!canNavigate) return;
+    if (isLast) {
+      onComplete?.();
+      return;
     }
-    const t = setTimeout(() => onComplete?.(), 1800);
-    return () => clearTimeout(t);
-  }, [step, gifts, onComplete]);
+    setDirection(1);
+    setStep((s) => s + 1);
+  };
+
+  const variants = {
+    enter: (dir) => ({
+      opacity: 0,
+      x: dir > 0 ? 40 : -40,
+      filter: "blur(8px)",
+      scale: 0.94,
+    }),
+    center: {
+      opacity: 1,
+      x: 0,
+      filter: "blur(0px)",
+      scale: 1,
+    },
+    exit: (dir) => ({
+      opacity: 0,
+      x: dir > 0 ? -40 : 40,
+      filter: "blur(6px)",
+      scale: 0.96,
+    }),
+  };
 
   return (
     <section className={styles.screen} aria-live="polite" aria-label="Gift reveal">
@@ -72,17 +105,21 @@ export default function GiftReveal({ gifts, onComplete }) {
       </motion.div>
 
       <div className={styles.stack}>
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" custom={direction}>
           {step >= 0 && gifts[step] && (
             <motion.article
               key={gifts[step].id}
               className={`glass-panel ${styles.card}`}
-              initial={{ opacity: 0, y: 30, filter: "blur(10px)", scale: 0.94 }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
-              exit={{ opacity: 0, y: -20, filter: "blur(6px)", scale: 0.96 }}
-              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span className={styles.tag}>Gift {step + 1}</span>
+              <span className={styles.tag}>
+                Gift {step + 1} of {gifts.length}
+              </span>
               <h3>{gifts[step].title}</h3>
               <p>{gifts[step].reveal}</p>
             </motion.article>
@@ -95,6 +132,30 @@ export default function GiftReveal({ gifts, onComplete }) {
           <span key={g.id} className={i <= step ? styles.active : ""} />
         ))}
       </div>
+
+      {canNavigate && (
+        <div className={styles.nav}>
+          <button
+            type="button"
+            className={`btn-ghost ${styles.navBtn}`}
+            onClick={goPrev}
+            disabled={isFirst}
+            aria-label="Previous gift"
+          >
+            <ChevronLeft size={18} aria-hidden="true" />
+            Previous
+          </button>
+          <button
+            type="button"
+            className={`btn-primary ${styles.navBtn}`}
+            onClick={goNext}
+            aria-label={isLast ? "Continue to final surprise" : "Next gift"}
+          >
+            {isLast ? "Continue" : "Next"}
+            <ChevronRight size={18} aria-hidden="true" />
+          </button>
+        </div>
+      )}
     </section>
   );
 }

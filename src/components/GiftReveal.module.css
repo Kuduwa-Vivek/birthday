@@ -113,3 +113,36 @@
   background: var(--pink);
   box-shadow: 0 0 10px rgba(255, 79, 154, 0.6);
 }
+
+.nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+  position: relative;
+  z-index: 2;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.navBtn {
+  min-width: 8.5rem;
+}
+
+.navBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  filter: none;
+}
+
+@media (max-width: 480px) {
+  .nav {
+    width: 100%;
+  }
+
+  .navBtn {
+    flex: 1;
+    min-width: 0;
+  }
+}

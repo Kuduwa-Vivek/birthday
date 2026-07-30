@@ -59,7 +59,8 @@ export default function FinalSurprise({ onReplay }) {
       return undefined;
     }
 
-    const delays = [0, 1600, 2800, 4000, 5200, 7000, 8600, 10800];
+    // Phases 0–2 are twist lines — each stays ~2s so they can be read
+    const delays = [0, 2000, 4000, 6000, 7500, 9500, 11500, 14000];
     const timers = delays.map((d, i) =>
       setTimeout(() => {
         if (i <= 7) setPhase(i);
