@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { birthdayConfig } from "../config/birthdayConfig";
@@ -7,44 +7,83 @@ import styles from "./EmotionalMessages.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
+function smoothstep(edge0, edge1, x) {
+  const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)));
+  return t * t * (3 - 2 * t);
+}
+
 export default function EmotionalMessages() {
   const sectionRef = useRef(null);
+  const pinRef = useRef(null);
+  const trackRef = useRef(null);
   const reduced = usePrefersReducedMotion();
+  const [activeIndex, setActiveIndex] = useState(0);
   const messages = birthdayConfig.emotionalMessages || [];
+  const total = messages.length;
 
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section) return undefined;
+    const pin = pinRef.current;
+    const track = trackRef.current;
+    if (!section || !pin || !track || total === 0 || reduced) return undefined;
 
-    const items = section.querySelectorAll("[data-msg]");
+    const panels = Array.from(track.querySelectorAll("[data-msg]"));
+
+    // Prefers GPU-friendly transforms; start everything hidden except first
+    gsap.set(panels, {
+      autoAlpha: 0,
+      y: 20,
+      scale: 0.985,
+      force3D: true,
+    });
+    if (panels[0]) {
+      gsap.set(panels[0], { autoAlpha: 1, y: 0, scale: 1 });
+    }
+
+    // Extra scroll room so each line can breathe before the next
+    const scrollLength = () => Math.max(total, 1) * window.innerHeight * 1.15;
+
     const ctx = gsap.context(() => {
-      if (reduced) {
-        gsap.set(items, { clearProps: "all", opacity: 1, y: 0 });
-        items.forEach((el) => {
-          el.dataset.revealed = "true";
-        });
-        return;
-      }
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        end: () => `+=${scrollLength()}`,
+        pin: pin,
+        // Higher scrub = silkier catch-up after finger/wheel movement
+        scrub: 1.35,
+        anticipatePin: 1,
+        fastScrollEnd: true,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          // Continuous position across messages (0 → total-1)
+          const pos = self.progress * Math.max(total - 1, 1);
+          const index = Math.min(total - 1, Math.round(pos));
+          setActiveIndex((prev) => (prev === index ? prev : index));
 
-      items.forEach((el) => {
-        gsap.set(el, { opacity: 0, y: 28 });
+          panels.forEach((panel, i) => {
+            const dist = pos - i;
 
-        gsap.to(el, {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          overwrite: "auto",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 88%",
-            once: true,
-            toggleActions: "play none none none",
-            onEnter: () => {
-              el.dataset.revealed = "true";
-            },
-          },
-        });
+            // Soft bell curve: fully readable near center, gentle crossfade to neighbors
+            // Peak while |dist| < ~0.2, mostly gone by |dist| > 0.95
+            const closeness = 1 - Math.min(1, Math.abs(dist) / 0.95);
+            const opacity = smoothstep(0, 1, closeness);
+
+            // Drift slightly with direction of travel
+            const y = dist * -18;
+            const scale = 0.97 + opacity * 0.03;
+
+            gsap.set(panel, {
+              autoAlpha: opacity,
+              y,
+              scale,
+              force3D: true,
+            });
+          });
+        },
+        onRefresh: (self) => {
+          const pos = self.progress * Math.max(total - 1, 1);
+          setActiveIndex(Math.min(total - 1, Math.round(pos)));
+        },
       });
     }, section);
 
@@ -54,53 +93,81 @@ export default function EmotionalMessages() {
     const t2 = setTimeout(refresh, 800);
     window.addEventListener("resize", refresh);
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting || entry.intersectionRatio < 0.15) return;
-          const el = entry.target;
-          if (el.dataset.revealed === "true") return;
-          gsap.to(el, {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            ease: "power2.out",
-            overwrite: "auto",
-          });
-          el.dataset.revealed = "true";
-        });
-      },
-      { threshold: [0.15, 0.35] }
-    );
-    items.forEach((el) => io.observe(el));
-
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(t1);
       clearTimeout(t2);
       window.removeEventListener("resize", refresh);
-      io.disconnect();
       ctx.revert();
     };
-  }, [reduced, messages.length]);
+  }, [reduced, total]);
+
+  if (reduced) {
+    return (
+      <section className={`section ${styles.section}`} aria-labelledby="emotional-title">
+        <h2 id="emotional-title" className="section-title">
+          Some things deserve to be said.
+        </h2>
+        <p className="section-sub">Things we don&apos;t say enough.</p>
+        <div className={styles.reducedList}>
+          {messages.map((msg, i) => (
+            <p key={i} className={`${styles.message} ${styles.visible}`}>
+              {msg}
+            </p>
+          ))}
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
       ref={sectionRef}
-      className={`section ${styles.section}`}
+      className={styles.storySection}
       aria-labelledby="emotional-title"
     >
-      <h2 id="emotional-title" className="section-title">
-        Some things deserve to be said.
-      </h2>
-      <p className="section-sub">Things we don&apos;t say enough.</p>
+      <div ref={pinRef} className={styles.pin}>
+        <div className={styles.glow} aria-hidden="true" />
 
-      <div className={styles.list}>
-        {messages.map((msg, i) => (
-          <p key={i} data-msg className={styles.message}>
-            {msg}
-          </p>
-        ))}
+        <header className={styles.header}>
+          <h2 id="emotional-title" className={styles.title}>
+            Some things deserve to be said.
+          </h2>
+          <p className={styles.sub}>Things we don&apos;t say enough.</p>
+        </header>
+
+        <div className={styles.stage}>
+          <div ref={trackRef} className={styles.track}>
+            {messages.map((msg, i) => (
+              <p
+                key={i}
+                data-msg
+                className={styles.message}
+                aria-hidden={i !== activeIndex}
+              >
+                {msg}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.progress} aria-live="polite">
+          <span className={styles.counter}>
+            {String(activeIndex + 1).padStart(2, "0")}
+            <span className={styles.sep}> / </span>
+            {String(total).padStart(2, "0")}
+          </span>
+          <div className={styles.dots} aria-hidden="true">
+            {messages.map((_, i) => (
+              <span
+                key={i}
+                className={`${styles.dot} ${
+                  i === activeIndex ? styles.dotActive : ""
+                } ${i < activeIndex ? styles.dotDone : ""}`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
