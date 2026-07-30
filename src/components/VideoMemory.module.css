@@ -1,0 +1,61 @@
+.card {
+  width: 100%;
+}
+
+.frame {
+  position: relative;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 79, 154, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), 0 0 40px rgba(139, 92, 246, 0.12);
+  background: #0d0a12;
+}
+
+.frame video {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(5, 5, 7, 0.55) 100%);
+  pointer-events: none;
+}
+
+.controls {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: flex;
+  gap: 0.4rem;
+  z-index: 2;
+}
+
+.ctrl {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 5, 7, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--white);
+  backdrop-filter: blur(8px);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.ctrl:hover {
+  background: rgba(255, 79, 154, 0.35);
+  border-color: rgba(255, 159, 203, 0.5);
+}
+
+.caption {
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-style: italic;
+  text-align: center;
+}

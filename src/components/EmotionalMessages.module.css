@@ -1,0 +1,35 @@
+.section {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(13, 10, 18, 0.6) 20%,
+    rgba(37, 10, 24, 0.35) 60%,
+    transparent 100%
+  );
+  min-height: 90vh;
+}
+
+.list {
+  max-width: 36rem;
+  margin: 4rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4.5rem, 14vh, 8rem);
+  padding: 2rem 0 4rem;
+}
+
+.message {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 4.2vw, 2.15rem);
+  line-height: 1.4;
+  text-align: center;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  opacity: 0;
+}
+
+@media (max-width: 640px) {
+  .list {
+    gap: 4rem;
+  }
+}

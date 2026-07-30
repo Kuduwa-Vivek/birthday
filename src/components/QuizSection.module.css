@@ -1,0 +1,137 @@
+.section {
+  position: relative;
+}
+
+.panel {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pink-soft);
+  margin-bottom: 1rem;
+}
+
+.question {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+  line-height: 1.35;
+  margin-bottom: 1.75rem;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-align: left;
+  padding: 0.95rem 1.1rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--white);
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.option:hover:not(:disabled) {
+  border-color: rgba(255, 159, 203, 0.4);
+  background: rgba(255, 79, 154, 0.08);
+  transform: translateX(4px);
+}
+
+.option:disabled {
+  cursor: default;
+}
+
+.optIndex {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  background: rgba(139, 92, 246, 0.25);
+  color: var(--pink-soft);
+  flex-shrink: 0;
+}
+
+.correct {
+  border-color: rgba(255, 79, 154, 0.7) !important;
+  box-shadow: 0 0 28px rgba(255, 79, 154, 0.3);
+  background: rgba(255, 79, 154, 0.12) !important;
+}
+
+.incorrect {
+  border-color: rgba(225, 29, 72, 0.55) !important;
+  box-shadow: 0 0 22px rgba(225, 29, 72, 0.22);
+}
+
+.revealCorrect {
+  border-color: rgba(255, 159, 203, 0.35) !important;
+}
+
+.feedback {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.feedback p {
+  color: var(--pink-soft);
+  font-size: 1rem;
+}
+
+.result {
+  text-align: center;
+  padding: 1rem 0.5rem;
+}
+
+.verdict {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink-soft);
+  margin-bottom: 0.75rem;
+}
+
+.result h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin-bottom: 0.75rem;
+}
+
+.scoreNote {
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.confetti {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  pointer-events: none;
+}
+
+.bit {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+}

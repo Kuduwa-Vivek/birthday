@@ -1,0 +1,93 @@
+.section {
+  position: relative;
+}
+
+.counter {
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pink-soft);
+  margin: -1.5rem 0 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.boxArea {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  min-height: 10rem;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1.75rem;
+  border-radius: 1.25rem;
+  border: 1px dashed rgba(255, 159, 203, 0.35);
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.02);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease,
+    transform 0.5s ease;
+}
+
+.box span {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.boxReady {
+  border-style: solid;
+  border-color: rgba(255, 79, 154, 0.55);
+  color: var(--pink-soft);
+  box-shadow: 0 0 40px rgba(255, 79, 154, 0.25);
+}
+
+.boxPull {
+  transform: scale(1.06);
+  box-shadow: 0 0 50px rgba(139, 92, 246, 0.35);
+}
+
+.limit {
+  color: var(--pink-soft);
+  font-size: 0.95rem;
+}
+
+.openWrap {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.interesting {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 380px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+  }
+}
