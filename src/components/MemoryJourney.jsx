@@ -22,7 +22,10 @@ export default function MemoryJourney() {
     const cards = section.querySelectorAll("[data-memory]");
     const ctx = gsap.context(() => {
       if (reduced) {
-        gsap.set(cards, { opacity: 1, x: 0, y: 0, scale: 1 });
+        gsap.set(cards, { clearProps: "all", opacity: 1, x: 0, y: 0, scale: 1 });
+        cards.forEach((card) => {
+          card.dataset.revealed = "true";
+        });
         if (lineRef.current) gsap.set(lineRef.current, { scaleY: 1 });
         return;
       }
@@ -36,9 +39,9 @@ export default function MemoryJourney() {
             ease: "none",
             scrollTrigger: {
               trigger: section,
-              start: "top 60%",
-              end: "bottom 80%",
-              scrub: true,
+              start: "top 70%",
+              end: "bottom 75%",
+              scrub: 0.6,
             },
           }
         );
@@ -46,35 +49,81 @@ export default function MemoryJourney() {
 
       cards.forEach((card, i) => {
         const fromLeft = i % 2 === 0;
-        gsap.fromTo(
-          card,
-          {
-            opacity: 0,
-            scale: 0.92,
-            x: fromLeft ? -48 : 48,
-            y: 36,
-            filter: "blur(8px)",
+
+        gsap.set(card, {
+          opacity: 0,
+          scale: 0.94,
+          x: fromLeft ? -32 : 32,
+          y: 28,
+        });
+
+        gsap.to(card, {
+          opacity: 1,
+          scale: 1,
+          x: 0,
+          y: 0,
+          duration: 0.85,
+          ease: "power3.out",
+          overwrite: "auto",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 88%",
+            once: true,
+            toggleActions: "play none none none",
+            onEnter: () => {
+              card.dataset.revealed = "true";
+            },
           },
-          {
+        });
+      });
+    }, section);
+
+    const refresh = () => ScrollTrigger.refresh();
+
+    const raf = requestAnimationFrame(refresh);
+    const t1 = setTimeout(refresh, 250);
+    const t2 = setTimeout(refresh, 800);
+    window.addEventListener("load", refresh);
+    window.addEventListener("resize", refresh);
+
+    const images = section.querySelectorAll("img");
+    images.forEach((img) => {
+      if (img.complete) return;
+      img.addEventListener("load", refresh, { once: true });
+      img.addEventListener("error", refresh, { once: true });
+    });
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting || entry.intersectionRatio < 0.15) return;
+          const card = entry.target;
+          if (card.dataset.revealed === "true") return;
+          gsap.to(card, {
             opacity: 1,
             scale: 1,
             x: 0,
             y: 0,
-            filter: "blur(0px)",
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 82%",
-              end: "top 40%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      });
-    }, section);
+            duration: 0.5,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+          card.dataset.revealed = "true";
+        });
+      },
+      { threshold: [0.15, 0.35] }
+    );
+    cards.forEach((card) => io.observe(card));
 
-    return () => ctx.revert();
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      window.removeEventListener("load", refresh);
+      window.removeEventListener("resize", refresh);
+      io.disconnect();
+      ctx.revert();
+    };
   }, [reduced, memories.length]);
 
   return (

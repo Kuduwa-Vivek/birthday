@@ -5,9 +5,9 @@
  */
 
 export const birthdayConfig = {
-  birthdayName: "HER_NAME",
-  nickname: "HER_NICKNAME",
-  password: "CHANGE_ME",
+  birthdayName: "VAHINI",
+  nickname: "BAALA",
+  password: "SAMBAR",
 
   passwordHint: "Think of the one thing that makes this day special.",
   passwordHintStrong: "It's something you say every year on this day… or maybe just her name.",
