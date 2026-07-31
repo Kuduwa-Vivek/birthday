@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.15rem, 4vw, 2.5rem);
+  padding: clamp(1.25rem, 3.5vw, 2.5rem) clamp(1.15rem, 4vw, 2.5rem);
   overflow: hidden;
   background: linear-gradient(
     180deg,
@@ -25,7 +25,7 @@
   width: min(70vw, 420px);
   height: min(70vw, 420px);
   border-radius: 50%;
-  top: 45%;
+  top: 48%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle, rgba(255, 79, 154, 0.12), transparent 65%);
@@ -37,56 +37,99 @@
   position: relative;
   z-index: 2;
   text-align: center;
-  margin-bottom: clamp(1.5rem, 5vh, 3rem);
+  margin-bottom: clamp(1rem, 3vh, 2rem);
   flex-shrink: 0;
 }
 
 .title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.5rem, 4.2vw, 2.5rem);
+  font-size: clamp(1.4rem, 4vw, 2.35rem);
   line-height: 1.2;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.4rem;
 }
 
 .sub {
   color: var(--muted);
   font-weight: 300;
-  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
 }
 
 .stage {
   position: relative;
   z-index: 2;
-  flex: 1;
+  flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: min(42vh, 280px);
   width: 100%;
-  max-width: 36rem;
+  max-width: 42rem;
   margin: 0 auto;
+  min-height: 0;
+  /* Keep messages visually in the middle of the viewport */
+  max-height: min(62vh, 480px);
 }
 
 .track {
   position: relative;
   width: 100%;
+  height: 100%;
   display: grid;
+  place-items: center;
 }
 
-.message {
+.panel {
   grid-area: 1 / 1;
-  font-family: var(--font-display);
-  font-size: clamp(1.45rem, 4.2vw, 2.15rem);
-  line-height: 1.45;
-  text-align: center;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.94);
-  margin: 0;
+  width: 100%;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
   will-change: transform, opacity;
   backface-visibility: hidden;
-  transform: translateZ(0);
+}
+
+.message {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.94);
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  line-height: 1.55;
+  text-wrap: pretty;
+  hyphens: auto;
+}
+
+/* Short lines: centered */
+.short {
+  text-align: center;
+  font-size: clamp(1.35rem, 4vw, 2.05rem);
+  line-height: 1.45;
+  max-width: 34rem;
+  margin-inline: auto;
+}
+
+/* Longer paragraphs: same size, left-aligned for easier reading */
+.long {
+  text-align: left;
+  font-size: clamp(1.35rem, 4vw, 2.05rem);
+  line-height: 1.5;
+  max-width: 38rem;
+  margin-inline: auto;
+  padding: 0.25rem 0.15rem;
+  overflow-y: auto;
+  max-height: min(56vh, 440px);
+  -webkit-overflow-scrolling: touch;
+}
+
+.longPanel {
+  align-items: center;
+}
+
+.shortPanel {
+  align-items: center;
 }
 
 .progress {
@@ -96,7 +139,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.65rem;
-  margin-top: clamp(1.25rem, 4vh, 2.5rem);
+  margin-top: clamp(1rem, 3vh, 1.75rem);
   flex-shrink: 0;
 }
 
@@ -113,8 +156,11 @@
 
 .dots {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.4rem;
   align-items: center;
+  max-width: 16rem;
 }
 
 .dot {
@@ -138,7 +184,6 @@
   background: rgba(255, 159, 203, 0.5);
 }
 
-/* Reduced motion: stacked list */
 .section {
   background: linear-gradient(
     180deg,
@@ -151,11 +196,11 @@
 }
 
 .reducedList {
-  max-width: 36rem;
+  max-width: 40rem;
   margin: 4rem auto 0;
   display: flex;
   flex-direction: column;
-  gap: clamp(3rem, 10vh, 5rem);
+  gap: clamp(2.5rem, 8vh, 4.5rem);
   padding: 2rem 0 4rem;
 }
 
@@ -164,11 +209,18 @@
 }
 
 @media (max-width: 640px) {
-  .message {
-    font-size: clamp(1.25rem, 6.2vw, 1.7rem);
+  .short,
+  .long {
+    font-size: clamp(1.2rem, 5.5vw, 1.6rem);
+  }
+
+  .long {
+    line-height: 1.5;
+    text-align: left;
+    max-height: min(50vh, 340px);
   }
 
   .stage {
-    min-height: 34vh;
+    max-height: min(55vh, 380px);
   }
 }

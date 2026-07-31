@@ -12,6 +12,10 @@ function smoothstep(edge0, edge1, x) {
   return t * t * (3 - 2 * t);
 }
 
+function isLongMessage(msg) {
+  return (msg || "").length > 90;
+}
+
 export default function EmotionalMessages() {
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
@@ -29,19 +33,21 @@ export default function EmotionalMessages() {
 
     const panels = Array.from(track.querySelectorAll("[data-msg]"));
 
-    // Prefers GPU-friendly transforms; start everything hidden except first
     gsap.set(panels, {
       autoAlpha: 0,
-      y: 20,
-      scale: 0.985,
+      y: 16,
+      scale: 0.988,
       force3D: true,
     });
     if (panels[0]) {
       gsap.set(panels[0], { autoAlpha: 1, y: 0, scale: 1 });
     }
 
-    // Extra scroll room so each line can breathe before the next
-    const scrollLength = () => Math.max(total, 1) * window.innerHeight * 1.15;
+    // Longer messages get a bit more scroll room so they can be read
+    const scrollLength = () => {
+      const base = window.innerHeight * 1.2;
+      return messages.reduce((sum, msg) => sum + (isLongMessage(msg) ? base * 1.35 : base), 0);
+    };
 
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
@@ -49,28 +55,21 @@ export default function EmotionalMessages() {
         start: "top top",
         end: () => `+=${scrollLength()}`,
         pin: pin,
-        // Higher scrub = silkier catch-up after finger/wheel movement
-        scrub: 1.35,
+        scrub: 1.2,
         anticipatePin: 1,
         fastScrollEnd: true,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
-          // Continuous position across messages (0 → total-1)
           const pos = self.progress * Math.max(total - 1, 1);
           const index = Math.min(total - 1, Math.round(pos));
           setActiveIndex((prev) => (prev === index ? prev : index));
 
           panels.forEach((panel, i) => {
             const dist = pos - i;
-
-            // Soft bell curve: fully readable near center, gentle crossfade to neighbors
-            // Peak while |dist| < ~0.2, mostly gone by |dist| > 0.95
             const closeness = 1 - Math.min(1, Math.abs(dist) / 0.95);
             const opacity = smoothstep(0, 1, closeness);
-
-            // Drift slightly with direction of travel
-            const y = dist * -18;
-            const scale = 0.97 + opacity * 0.03;
+            const y = dist * -12;
+            const scale = 0.98 + opacity * 0.02;
 
             gsap.set(panel, {
               autoAlpha: opacity,
@@ -100,7 +99,7 @@ export default function EmotionalMessages() {
       window.removeEventListener("resize", refresh);
       ctx.revert();
     };
-  }, [reduced, total]);
+  }, [reduced, total, messages]);
 
   if (reduced) {
     return (
@@ -111,7 +110,12 @@ export default function EmotionalMessages() {
         <p className="section-sub">Things we don&apos;t say enough.</p>
         <div className={styles.reducedList}>
           {messages.map((msg, i) => (
-            <p key={i} className={`${styles.message} ${styles.visible}`}>
+            <p
+              key={i}
+              className={`${styles.message} ${styles.visible} ${
+                isLongMessage(msg) ? styles.long : styles.short
+              }`}
+            >
               {msg}
             </p>
           ))}
@@ -139,14 +143,22 @@ export default function EmotionalMessages() {
         <div className={styles.stage}>
           <div ref={trackRef} className={styles.track}>
             {messages.map((msg, i) => (
-              <p
+              <div
                 key={i}
                 data-msg
-                className={styles.message}
+                className={`${styles.panel} ${
+                  isLongMessage(msg) ? styles.longPanel : styles.shortPanel
+                }`}
                 aria-hidden={i !== activeIndex}
               >
-                {msg}
-              </p>
+                <p
+                  className={`${styles.message} ${
+                    isLongMessage(msg) ? styles.long : styles.short
+                  }`}
+                >
+                  {msg}
+                </p>
+              </div>
             ))}
           </div>
         </div>
