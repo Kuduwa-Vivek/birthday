@@ -4,7 +4,7 @@ import { birthdayConfig } from "../config/birthdayConfig";
 import { usePrefersReducedMotion } from "../hooks/useScrollProgress";
 import styles from "./FinalSurprise.module.css";
 
-const TWIST_LINES = ["You chose three.", "But…", "There was always one more."];
+const TWIST_LINES = ["You chose one.", "But…", "There was always one more."];
 
 function createHeartbeat() {
   try {
@@ -185,9 +185,9 @@ export default function FinalSurprise({ onReplay }) {
                   Happy Birthday <span aria-hidden="true">❤️</span>
                 </p>
 
-                <button type="button" className="btn-primary" onClick={onReplay}>
+                {/* <button type="button" className="btn-primary" onClick={onReplay}>
                   Replay the Story
-                </button>
+                </button> */}
               </motion.div>
             )}
           </motion.div>

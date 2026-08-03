@@ -101,7 +101,7 @@ export default function GiftReveal({ gifts = [], onComplete }) {
         transition={{ duration: 0.7 }}
       >
         <h2>Your Birthday Box</h2>
-        <p>Three wishes, revealed.</p>
+        <p>One wish, revealed.</p>
       </motion.div>
 
       <div className={styles.stack}>

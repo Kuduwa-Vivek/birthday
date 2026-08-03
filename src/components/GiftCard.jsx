@@ -23,11 +23,7 @@ export default function GiftCard({
       onClick={() => onSelect?.(gift.id)}
       disabled={disabled || flying}
       aria-pressed={selected}
-      aria-label={
-        revealed
-          ? `Gift ${number}: ${gift.title}`
-          : `Mystery gift ${number}${selected ? ", selected" : ""}`
-      }
+      aria-label={`Mystery gift ${number}${selected ? ", selected" : ""}`}
       whileHover={disabled || flying ? undefined : { rotateX: 6, rotateY: -6, scale: 1.03 }}
       whileTap={disabled || flying ? undefined : { scale: 0.97 }}
       style={{ transformStyle: "preserve-3d" }}
@@ -38,9 +34,9 @@ export default function GiftCard({
           <span className={styles.number}>{number}</span>
           <span className={styles.mystery}>Mystery</span>
         </div>
-        <div className={`${styles.face} ${styles.back}`}>
-          <h3>{gift.title}</h3>
-          <p>{gift.description}</p>
+        {/* Title stays hidden during selection; content is shown in GiftReveal */}
+        <div className={`${styles.face} ${styles.back}`} aria-hidden="true">
+          <span className={styles.mystery}>Mystery</span>
         </div>
       </div>
       {selected && (

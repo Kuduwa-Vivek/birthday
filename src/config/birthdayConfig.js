@@ -16,11 +16,22 @@ export const birthdayConfig = {
   heroSubtitle: "A little surprise, made just for you",
   heroJourneyLine: "A little journey through memories, moments and surprises…",
 
-  finalMessage: `[FINAL_MESSAGE]
+  finalMessage: `If you've made it this far, thank you for taking this little journey I created just for you.
 
-This is where your personal message goes.
-Write something warm, specific, and from the heart.
-She will see this after the final twist.`,
+There's something I've never really said out loud.
+
+I truly care about you more than I probably show. Your kindness, your patience, your smile, and the way you make our home feel brighter never go unnoticed. Your presence matters — not just to my brother, but to me and to our family as well.
+
+Thank you for accepting all of us with so much love, for making ordinary moments feel special, and for being exactly the wonderful person you are.
+
+I hope this new year of your life brings you endless happiness, good health, beautiful memories, and every little dream you've been wishing for.
+
+Keep smiling, keep being your amazing self, and always remember that you will always have a place in our hearts.
+
+Happy 30th Birthday! 🎂❤️
+
+With lots of love,
+Your Devar 💙`,
 
   closingLine: "Made especially for you.",
 
@@ -165,57 +176,57 @@ She will see this after the final twist.`,
   gifts: [
     {
       id: 1,
-      title: "[GIFT_01]",
-      description: "A surprise waiting for you",
-      reveal: "YOUR GIFT MESSAGE — something thoughtful and personal.",
+      title: "Birthday Cake 🎂",
+      description: "A sweet surprise made just for you",
+      reveal: "A delicious birthday cake to celebrate your special day! ❤️",
     },
     {
       id: 2,
-      title: "[GIFT_02]",
-      description: "Wrapped in quiet intention",
-      reveal: "YOUR GIFT MESSAGE — a wish for joy that lasts.",
+      title: "Red Wine 🍷",
+      description: "For a cozy and memorable evening",
+      reveal: "A bottle of wine to toast another beautiful year together. 🥂",
     },
     {
       id: 3,
-      title: "[GIFT_03]",
-      description: "A little luxury for later",
-      reveal: "YOUR GIFT MESSAGE — something she'll smile about.",
+      title: "Elegant Handbag 👜",
+      description: "A little luxury you'll love carrying",
+      reveal: "A stylish handbag chosen especially for you. ✨",
     },
     {
       id: 4,
-      title: "[GIFT_04]",
-      description: "Soft, sweet, unexpected",
-      reveal: "YOUR GIFT MESSAGE — a treat made for her.",
+      title: "Signature Perfume 🌸",
+      description: "A fragrance as beautiful as you",
+      reveal: "A perfume that reminds everyone of your elegance. 💕",
     },
     {
       id: 5,
-      title: "[GIFT_05]",
-      description: "An experience, not a thing",
-      reveal: "YOUR GIFT MESSAGE — a moment to share together.",
+      title: "Stylish Sunglasses 😎",
+      description: "For your next adventure",
+      reveal: "A sunglasses to make every outing more stylish. ☀️",
     },
     {
       id: 6,
-      title: "[GIFT_06]",
-      description: "Kept just for this day",
-      reveal: "YOUR GIFT MESSAGE — something chosen with care.",
+      title: "Luxury Chocolates 🍫",
+      description: "Because every celebration deserves sweetness",
+      reveal: "A box of your favorite chocolates is waiting for you! ❤️",
     },
     {
       id: 7,
-      title: "[GIFT_07]",
-      description: "A promise of celebration",
-      reveal: "YOUR GIFT MESSAGE — dinner, dessert, or delight.",
+      title: "Mystery Gift",
+      description: "A surprise waiting for you",
+      reveal: "Better luck next time 💫 You found a decoy. The real surprises were hiding elsewhere.",
     },
     {
       id: 8,
-      title: "[GIFT_08]",
-      description: "For the quiet nights",
-      reveal: "YOUR GIFT MESSAGE — comfort wrapped in kindness.",
+      title: "Mystery Gift",
+      description: "A surprise waiting for you",
+      reveal: "Better luck next time 😌 This one was empty — enjoy the joke!",
     },
     {
       id: 9,
-      title: "[GIFT_09]",
-      description: "The one she didn't ask for",
-      reveal: "YOUR GIFT MESSAGE — because she deserves it anyway.",
+      title: "Mystery Gift",
+      description: "A surprise waiting for you",
+      reveal: "Better luck next time 😉 This gift was a playful trap — still love you though!",
     },
   ],
 
@@ -241,3 +252,6 @@ She will see this after the final twist.`,
     "Almost… but not yet.",
   ],
 };
+
+
+
