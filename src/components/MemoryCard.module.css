@@ -67,6 +67,18 @@
 
 .full .media img {
   aspect-ratio: 21 / 11;
+  object-position: center;
+}
+
+/* Vertical phone photos (3:4 / 9:16) — keeps faces & full body in frame */
+.portrait .media {
+  max-width: min(100%, 420px);
+}
+
+.portrait .media img {
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center 18%;
 }
 
 .caption {
