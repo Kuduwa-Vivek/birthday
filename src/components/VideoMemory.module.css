@@ -15,7 +15,29 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
+  object-position: center;
   display: block;
+}
+
+/* Tall phone videos (e.g. 1512×2016 / 3:4) */
+.portrait {
+  max-width: min(100%, 420px);
+  margin-inline: auto;
+}
+
+.portrait .frame video {
+  aspect-ratio: 3 / 4;
+  object-position: center 20%;
+}
+
+/* Ultra-wide / landscape cinematic */
+.full .frame video {
+  aspect-ratio: 21 / 11;
+}
+
+/* Near-square */
+.polaroid .frame video {
+  aspect-ratio: 1 / 1.05;
 }
 
 .overlay {

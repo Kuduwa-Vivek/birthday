@@ -11,6 +11,7 @@ export default function VideoMemory({
   caption,
   active = false,
   onPlayRequest,
+  layout = "side",
   className = "",
 }) {
   const videoRef = useRef(null);
@@ -53,7 +54,9 @@ export default function VideoMemory({
 
     onPlayRequest?.();
     try {
-      video.muted = true;
+      // User-initiated play → allow sound
+      video.muted = false;
+      video.volume = 1;
       await video.play();
       setPlaying(true);
     } catch {
@@ -69,7 +72,10 @@ export default function VideoMemory({
   };
 
   return (
-    <div ref={containerRef} className={`${styles.card} ${className}`}>
+    <div
+      ref={containerRef}
+      className={`${styles.card} ${styles[layout] || ""} ${className}`.trim()}
+    >
       <div className={styles.frame}>
         {failed ? (
           <div className="media-fallback" role="img" aria-label={caption || "Video placeholder"}>
@@ -81,7 +87,6 @@ export default function VideoMemory({
           <video
             ref={videoRef}
             src={src}
-            muted
             playsInline
             loop
             preload="metadata"

@@ -32,6 +32,7 @@ export default function MemoryCard({
           <VideoMemory
             src={memory.media}
             caption={memory.caption}
+            layout={layout}
             active={activeVideoId === memory.id}
             onPlayRequest={() => onVideoPlay?.(memory.id)}
           />

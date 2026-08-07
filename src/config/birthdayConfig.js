@@ -7,7 +7,7 @@
 export const birthdayConfig = {
   birthdayName: "VAHINI",
   nickname: "BAALA",
-  password: "SAMBAR",
+  password: "sambar",
 
   passwordHint: "Think of the one thing that makes this day special.",
   passwordHintStrong: "It's something you say every year on this day… or maybe just her name.",
@@ -44,7 +44,7 @@ Your Devar 💙`,
     "/media/final-photo.jpg",
   ],
 
-  videos: ["/media/video1.mp4", "/media/video2.mp4"],
+  videos: ["/media/video1.mp4"],
 
   musicPath: "/media/birthday-music.mp3",
   musicVolume: 0.28,
@@ -76,7 +76,7 @@ Your Devar 💙`,
       caption: "[MEMORY_CAPTION_02]",
       date: "",
       text: "Some memories still feel like yesterday.",
-      layout: "full",
+      layout: "portrait",
       tilt: 0,
     },
     {
