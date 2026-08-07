@@ -25,9 +25,9 @@
 .heartCore {
   width: 28px;
   height: 28px;
-  background: var(--pink);
+  background: var(--white);
   transform: rotate(-45deg);
-  box-shadow: 0 0 40px rgba(255, 79, 154, 0.7), 0 0 80px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.55), 0 0 80px rgba(255, 255, 255, 0.2);
   animation: heartbeat 1.4s ease-in-out infinite;
   position: relative;
   z-index: 1;
@@ -39,7 +39,7 @@
   position: absolute;
   width: 28px;
   height: 28px;
-  background: var(--pink);
+  background: var(--white);
   border-radius: 50%;
 }
 

@@ -137,7 +137,7 @@ export default function FinalSurprise({ onReplay }) {
               transition={{ duration: 0.9 }}
             >
               Happy Birthday, {birthdayConfig.birthdayName}{" "}
-              <span aria-hidden="true">❤️</span>
+              <span aria-hidden="true">🤍</span>
             </motion.h2>
 
             {phase >= 6 && (
@@ -182,7 +182,7 @@ export default function FinalSurprise({ onReplay }) {
 
                 <p className={styles.closing}>{birthdayConfig.closingLine}</p>
                 <p className={styles.bye}>
-                  Happy Birthday <span aria-hidden="true">❤️</span>
+                  Happy Birthday <span aria-hidden="true">🤍</span>
                 </p>
 
                 {/* <button type="button" className="btn-primary" onClick={onReplay}>

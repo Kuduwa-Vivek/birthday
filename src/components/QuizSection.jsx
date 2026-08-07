@@ -151,7 +151,7 @@ export default function QuizSection() {
               transition={{ duration: 0.55 }}
             >
               <p className={styles.verdict}>Official verdict</p>
-              <h3>You passed the test ❤️</h3>
+              <h3>You passed the test 🤍</h3>
               <p className={styles.scoreNote}>
                 {score} of {questions.length} remembered — and every answer was charming.
               </p>

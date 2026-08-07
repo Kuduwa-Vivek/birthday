@@ -33,8 +33,8 @@
 .heartWrap {
   display: inline-flex;
   margin-bottom: 1.25rem;
-  color: var(--pink);
-  filter: drop-shadow(0 0 12px rgba(255, 79, 154, 0.6));
+  color: var(--white);
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.45));
   animation: float-y 4s ease-in-out infinite;
 }
 
