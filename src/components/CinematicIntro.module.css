@@ -1,0 +1,115 @@
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  background: radial-gradient(ellipse at center, #0d0a12 0%, #050507 70%);
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+.heart {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: grid;
+  place-items: center;
+}
+
+.heartCore {
+  width: 28px;
+  height: 28px;
+  background: var(--white);
+  transform: rotate(-45deg);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.55), 0 0 80px rgba(255, 255, 255, 0.2);
+  animation: heartbeat 1.4s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
+
+.heartCore::before,
+.heartCore::after {
+  content: "";
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background: var(--white);
+  border-radius: 50%;
+}
+
+.heartCore::before {
+  top: -14px;
+  left: 0;
+}
+
+.heartCore::after {
+  top: 0;
+  left: 14px;
+}
+
+.spark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--pink-soft);
+  box-shadow: 0 0 8px var(--pink);
+  transform: rotate(var(--a)) translateY(calc(var(--r) * -1)) scale(0);
+  animation: spark-in var(--d) ease-out forwards;
+}
+
+.line {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 4vw, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-align: center;
+  max-width: 20rem;
+  color: var(--white);
+  min-height: 2.5rem;
+}
+
+.skip {
+  position: absolute;
+  bottom: 2rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.55;
+}
+
+@keyframes spark-in {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(0) scale(0);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(var(--a)) translateY(calc(var(--r) * -1)) scale(1);
+  }
+  100% {
+    opacity: 0.7;
+    transform: rotate(var(--a)) translateY(calc(var(--r) * -1.05)) scale(0.85);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heartCore,
+  .spark {
+    animation: none;
+  }
+
+  .spark {
+    opacity: 0.5;
+    transform: rotate(var(--a)) translateY(calc(var(--r) * -1)) scale(0.8);
+  }
+}

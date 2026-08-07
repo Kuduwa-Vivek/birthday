@@ -1,0 +1,226 @@
+.storySection {
+  position: relative;
+}
+
+.pin {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.25rem, 3.5vw, 2.5rem) clamp(1.15rem, 4vw, 2.5rem);
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 5, 7, 0.2) 0%,
+    rgba(13, 10, 18, 0.85) 35%,
+    rgba(37, 10, 24, 0.45) 70%,
+    rgba(5, 5, 7, 0.2) 100%
+  );
+}
+
+.glow {
+  position: absolute;
+  width: min(70vw, 420px);
+  height: min(70vw, 420px);
+  border-radius: 50%;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 79, 154, 0.12), transparent 65%);
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-bottom: clamp(1rem, 3vh, 2rem);
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 4vw, 2.35rem);
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+}
+
+.sub {
+  color: var(--muted);
+  font-weight: 300;
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+}
+
+.stage {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 42rem;
+  margin: 0 auto;
+  min-height: 0;
+  /* Keep messages visually in the middle of the viewport */
+  max-height: min(62vh, 480px);
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.panel {
+  grid-area: 1 / 1;
+  width: 100%;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.message {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.94);
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  line-height: 1.55;
+  text-wrap: pretty;
+  hyphens: auto;
+}
+
+/* Short lines: centered */
+.short {
+  text-align: center;
+  font-size: clamp(1.35rem, 4vw, 2.05rem);
+  line-height: 1.45;
+  max-width: 34rem;
+  margin-inline: auto;
+}
+
+/* Longer paragraphs: same size, left-aligned for easier reading */
+.long {
+  text-align: left;
+  font-size: clamp(1.35rem, 4vw, 2.05rem);
+  line-height: 1.5;
+  max-width: 38rem;
+  margin-inline: auto;
+  padding: 0.25rem 0.15rem;
+  overflow-y: auto;
+  max-height: min(56vh, 440px);
+  -webkit-overflow-scrolling: touch;
+}
+
+.longPanel {
+  align-items: center;
+}
+
+.shortPanel {
+  align-items: center;
+}
+
+.progress {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: clamp(1rem, 3vh, 1.75rem);
+  flex-shrink: 0;
+}
+
+.counter {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  color: var(--pink-soft);
+}
+
+.sep {
+  opacity: 0.45;
+}
+
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  align-items: center;
+  max-width: 16rem;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  transition:
+    background 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dotActive {
+  background: var(--pink);
+  transform: scale(1.3);
+  box-shadow: 0 0 10px rgba(255, 79, 154, 0.6);
+}
+
+.dotDone {
+  background: rgba(255, 159, 203, 0.5);
+}
+
+.section {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(13, 10, 18, 0.6) 20%,
+    rgba(37, 10, 24, 0.35) 60%,
+    transparent 100%
+  );
+  min-height: 90vh;
+}
+
+.reducedList {
+  max-width: 40rem;
+  margin: 4rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 8vh, 4.5rem);
+  padding: 2rem 0 4rem;
+}
+
+.visible {
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  .short,
+  .long {
+    font-size: clamp(1.2rem, 5.5vw, 1.6rem);
+  }
+
+  .long {
+    line-height: 1.5;
+    text-align: left;
+    max-height: min(50vh, 340px);
+  }
+
+  .stage {
+    max-height: min(55vh, 380px);
+  }
+}
