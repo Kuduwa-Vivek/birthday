@@ -4,6 +4,12 @@
  * Place media files in /public/media/
  */
 
+/** Respect Vite `base` so assets work on GitHub Pages (/birthday/...). */
+const media = (path) => {
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base}${String(path).replace(/^\//, "")}`;
+};
+
 export const birthdayConfig = {
   birthdayName: "VAHINI",
   nickname: "BAALA",
@@ -36,17 +42,17 @@ Your Devar 💙`,
   closingLine: "Made especially for you.",
 
   photos: [
-    "/media/photo1.jpeg",
-    "/media/photo2.jpeg",
-    "/media/photo3.jpeg",
-    "/media/photo4.jpeg",
-    "/media/photo5.jpeg",
-    "/media/final-photo.jpg",
+    media("media/photo1.jpeg"),
+    media("media/photo2.jpeg"),
+    media("media/photo3.jpeg"),
+    media("media/photo4.jpeg"),
+    media("media/photo5.jpeg"),
+    media("media/final-photo.jpg"),
   ],
 
-  videos: ["/media/video1.mp4"],
+  videos: [media("media/video1.mp4")],
 
-  musicPath: "/media/birthday-music.mp3",
+  musicPath: media("media/birthday-music.mp3"),
   musicVolume: 0.28,
 
   /**
@@ -61,7 +67,7 @@ Your Devar 💙`,
       id: 1,
       label: "MEMORY 01",
       type: "photo",
-      media: "/media/photo1.jpeg",
+      media: media("media/photo1.jpeg"),
       caption: "One picture. A thousand emotions.",
       date: "A day that still glows",
       text: "The first picture captured on my new phone... and one of my favorites.",
@@ -72,7 +78,7 @@ Your Devar 💙`,
       id: 2,
       label: "MEMORY 02",
       type: "video",
-      media: "/media/video1.mp4",
+      media: media("media/video1.mp4"),
       caption: "",
       date: "",
       text: "Some memories still feel like yesterday.",
@@ -83,7 +89,7 @@ Your Devar 💙`,
       id: 3,
       label: "MEMORY 03",
       type: "photo",
-      media: "/media/photo2.jpeg",
+      media: media("media/photo2.jpeg"),
       caption: "Where ordinary becomes beautiful",
       date: "An ordinary evening",
       text: "And some people make every ordinary moment special.",
@@ -94,7 +100,7 @@ Your Devar 💙`,
       id: 4,
       label: "MEMORY 04",
       type: "photo",
-      media: "/media/photo3.jpeg",
+      media: media("media/photo3.jpeg"),
       caption: "Every scar carries a story.",
       date: "",
       text: "Our first little mishap… and somehow, it became one of the stories we still smile about",
@@ -105,7 +111,7 @@ Your Devar 💙`,
     //   id: 5,
     //   label: "MEMORY 05",
     //   type: "photo",
-    //   media: "/media/photo4.jpeg",
+    //   media: media("media/photo4.jpeg"),
     //   caption: "[MEMORY_CAPTION_05]",
     //   date: "A quiet kind of magic",
     //   text: "Not every chapter needs words. Some just need you.",
@@ -116,7 +122,7 @@ Your Devar 💙`,
       id: 6,
       label: "MEMORY 06",
       type: "photo",
-      media: "/media/photo5.jpeg",
+      media: media("media/photo5.jpeg"),
       caption: "Simply unforgettable.]",
       date: "A day that still glows",
       text: "Some moments become memories without us realizing it.",
@@ -240,7 +246,7 @@ Your Devar 💙`,
 
   finalMedia: {
     type: "photo",
-    src: "/media/photo.jpg",
+    src: media("media/photo.jpg"),
     alt: "A meaningful moment",
   },
 
@@ -249,8 +255,8 @@ Your Devar 💙`,
       "Okay… you found something you weren't supposed to find 👀",
     secretMessage:
       "[SECRET_MESSAGE] — a family joke, a funny memory, or something only she would understand.",
-    photo: "/media/easter-photo.jpg",
-    video: "/media/easter-video.mp4",
+    photo: media("media/easter-photo.jpg"),
+    video: media("media/easter-video.mp4"),
   },
 
   wrongPasswordMessages: [
